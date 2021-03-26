@@ -2,7 +2,7 @@
 ## Inhaltsverzeichnis
 1. [Ruby on Rails](#ruby-on-rails)
 2. [ORM](#orm)
-3. [Namenskonventionen in Ruby On Rails](#namenskonventionen-in-ruby-on-rails)
+3. [Namenskonventionen in Ruby On Rails](#namenskonventionen-in-ruby-on-rails)  
     4. [Allgemeine Regeln](#allgemeine-regeln)  
     5. [Datenbank](#Datenbank)  
     6. [Model (Klassen)](#Model-(Klassen))  
