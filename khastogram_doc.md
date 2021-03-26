@@ -18,7 +18,7 @@ Um das Wissen über die Arbeit mit Datenbanken durch Webanwendungen zu verbesser
 ## Ruby on Rails
 Rails ist in erster Linie eine Entwicklungsumgebung, die sich hervorragend für die Erstellung jeder Art von Webanwendungen eignet: Website-Management-Systeme und E-Commerce-Plattformen, Webdienste für Zusammenarbeit und Kommunikation, Buchhaltungs- und ERP-Systeme, statistische und analytische Systeme.
 
-Ruby on Rails (RoR oder Rails) ist ein mehrschichtiges MVC-Framework zum Erstellen von Webanwendungen, die relationale und NoSQL-Datenbanken (wie MySQL, MariaDB, PostgeSQL, MongoDB) verwenden. Das Framework ist in der Programmiersprache Ruby geschrieben. Rails eignet sich sowohl für die Entwicklung normaler Websites, die wirklich schnell, fehlertolerant und unter hoher Last arbeiten müssen, als auch für Webanwendungen mit komplexer Geschäftslogik und dynamischen Web-Schnittstellen. Ruby on Rails ist Open Source und steht unter der MIT-Lizenz.
+Ruby on Rails (RoR oder Rails) ist ein mehrschichtiges MVC-Framework zum Erstellen von Webanwendungen, die relationale und NoSQL-Datenbanken (wie MySQL, MariaDB, PostgeSQL, MongoDB) verwenden. Das Framework ist in der Programmiersprache Ruby geschrieben. Rails eignet sich sowohl für die Entwicklung normaler Websites, die wirklich schnell, fehlertolerant und unter hoher Last arbeiten müssen, als auch für Webanwendungen mit komplexer Geschäftslogik und dynamischen Web-Schnittstellen. Ruby on Rails ist Open Source und steht unter der MIT-Lizenz.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ## ORM
@@ -26,13 +26,13 @@ Ein integraler Bestandteil jedes interaktiven Programms ist das Speichern, Anzei
 
 Beispiel: Angenommen, man möchte ein Array aller Benutzer abrufen. Anstatt Code zu schreiben, um sich mit der Datenbank zu verbinden und dann eine SQL-Abfrage wie SELECT * FROM users zu schreiben und das Ergebnis in ein Array zu konvertieren, kann man einfach User.all eingeben, und Active Record gibt ein Array mit User-Objekten aus, mit denen man beliebig spielen kann.
 
-Es spielt eigentlich keine Rolle, welche Art von Datenbank man verwendet. Active Record gleicht alle Unterschiede zwischen diesen Datenbanken aus, so dass man nicht darüber nachdenken muss. Dabei konzentriert man sich auf das Schreiben des Codes für die Anwendung und Active Record kümmert sich um die Feinheiten der Verbindung zur Datenbank. Das bedeutet auch, dass man beim Wechsel von einer Datenbank zu einer anderen nicht wirklich den zugrunde liegenden Anwendungscode ändern muss, sondern nur einige der Konfigurationsdateien.
+Es spielt eigentlich keine Rolle, welche Art von Datenbank man verwendet. Active Record gleicht alle Unterschiede zwischen diesen Datenbanken aus, so dass man nicht darüber nachdenken muss. Dabei konzentriert man sich auf das Schreiben des Codes für die Anwendung und Active Record kümmert sich um die Feinheiten der Verbindung zur Datenbank. Das bedeutet auch, dass man beim Wechsel von einer Datenbank zu einer anderen nicht wirklich den zugrunde liegenden Anwendungscode ändern muss, sondern nur einige der Konfigurationsdateien.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ## Namenskonventionen in Ruby On Rails
 
 In Ruby on Rails gilt oft die Regel "Konvention vor Konfiguration" - anstatt explizit festzulegen, was mit was zusammenhängt und wie es funktioniert, einigen sich die Entwickler einfach auf einige Regeln für die Benennung von Entitäten und halten sich daran, um ihr Leben zu vereinfachen und die Menge des benötigten Codes zu reduzieren.
-Alle Regeln aufzulisten würde viel Platz und Zeit in Anspruch nehmen, aber hier sind einige von denen, die bei der Entwicklung einer Instagram-App wichtig zu wissen sind.
+Alle Regeln aufzulisten würde viel Platz und Zeit in Anspruch nehmen, aber hier sind einige von denen, die bei der Entwicklung einer Instagram-App wichtig zu wissen sind.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Allgemeine Regeln
@@ -40,7 +40,7 @@ Alle Regeln aufzulisten würde viel Platz und Zeit in Anspruch nehmen, aber hier
 - Bei der Benennung von Methoden und Variablen verwenden wir `snake_case`.
 - Methoden mit `?` geben einen booleschen Wert zurück.
 - Methoden mit `!` bedeuten eines von zwei Dingen: entweder sie modifizieren das Objekt, auf das sie angewendet werden; oder sie lösen eine Exception aus, anstatt das Programm zum Absturz zu bringen (wie z.B. in `#save!` vs. `#save`-Methoden).
-- In der Dokumentation bezieht sich `::method_name` auf die Klassenmethode, wobei `#method_name` auf die Instanzmethode verweist.
+- In der Dokumentation bezieht sich `::method_name` auf die Klassenmethode, wobei `#method_name` auf die Instanzmethode verweist.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Datenbank
@@ -56,7 +56,7 @@ Alle Regeln aufzulisten würde viel Platz und Zeit in Anspruch nehmen, aber hier
     +------------+-------------+        | firma_id       | FOREIGN KEY |
                                         | addresse       | STRING      |
                                         +---------------------+--------+
-```
+```  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Model (Klassen)
@@ -77,7 +77,7 @@ class Angestellte < ActiveRecord::Base
     ferien < 25
   end
 end
-```
+```  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Beziehungen in Modellen
@@ -94,7 +94,7 @@ end
 class Angestellte < ActiveRecord::Base
   belongs_to :firma
 end
-```
+```  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Controller
@@ -108,7 +108,7 @@ class AngestelltenController < ApplicationController
 end
 ```
 - Bei der Benennung von Controller-Aktionen wird `snake_case` verwendet, sie werden üblicherweise auf Standard-Rails-Pfadnamen (`index`, `show`, `new`, `create`, `edit`, `update`, `delete`) abgebildet.
-- Controller befinden sich unter `app/controllers/#{resource_name}_controller.rb...`
+- Controller befinden sich unter `app/controllers/#{resource_name}_controller.rb...`  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Routen
@@ -119,7 +119,7 @@ resources :firmas
 # Benutzer können nur ihre eigenen Profile sehen, daher verwenden wir `/profile`.
 # anstatt die ID zur URL hinzuzufügen.
 resource :profile
-```
+```  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Views
