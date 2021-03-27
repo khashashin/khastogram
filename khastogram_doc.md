@@ -27,6 +27,11 @@
     25. [User Model Erweitern](#user-model-erweitern)
     26. [Login View](#login-view)  
 27. [Selbstreflexion](#selbstreflexion)  
+    28. [Was habe ich gelernt? Was wusste ich bereits?](#was-habe-ich-gelernt-was-wusste-ich-bereits)
+    29. [Wie bin ich vorgegangen beim Lernen bzw. Ausführen des Auftrages?](#wie-bin-ich-vorgegangen-beim-lernen-bzw-ausf%C3%BChren-des-auftrages)
+    30. [Was waren die Schwierigkeiten, wie konnte ich diese lösen?](#was-waren-die-schwierigkeiten-wie-konnte-ich-diese-l%C3%B6sen)
+    31. [Was habe ich nicht verstanden bzw. was konnte ich nicht lösen?](#was-habe-ich-nicht-verstanden-bzw-was-konnte-ich-nicht-l%C3%B6sen)
+    32. [Was kann ich nächstes Mal besser machen?](#was-kann-ich-n%C3%A4chstes-mal-besser-machen)
 
 --- 
 
