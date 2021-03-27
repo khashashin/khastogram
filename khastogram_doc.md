@@ -142,7 +142,9 @@ CRUD (create, read, update, delete) - vier grundlegende Funktionen, die bei der 
 | Create (Erstellen)     | INSERT     | POST           |
 | Read (Lesen)           | INSERT     | GET            |
 | Update (Aktualisieren) | UPDATE     | PUT oder PATCH |
-| Delete (Löschen)       | DELETE     | DELETE         |
+| Delete (Löschen)       | DELETE     | DELETE         |  
+
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
 ##### Betrachten wir diese Funktionen mit Hilfe von Beispielen und fangen gleich mit C an.
 Normalerweise ist das Erstellen einer neuen Ressource in Webanwendungen ein mehrstufiger Prozess. Zuerst fordert der Benutzer ein Formular zum Ausfüllen an. Dann sendet der Benutzer das Formular ab. Wenn es keine Fehler gibt, wird die Ressource erstellt und eine Bestätigung angezeigt. Andernfalls wird das Formular erneut mit Fehlermeldungen angezeigt, und der Vorgang wird wiederholt.
@@ -235,7 +237,8 @@ Die resultierende Ausgabe eines Aufrufs von form_with sieht wie folgt aus:
     <input type="submit" name="commit" value="Artikel erstellen" data-disable-with="Artikel erstellen">
   </div>
 </form>
-```
+```  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
 ##### Dann kommt das "R" von CRUD.
 Standardmäßig werden für "R" die Methoden `index` und `show` verwendet. Unter `index` wird eine Übersicht über alle Elemente des Modells erstellt, und unter `show` werden einzelne Elemente angezeigt. Hier ist ein Beispiel:
@@ -305,8 +308,8 @@ Oder man könnte auch die Hilfemethode `link_to` zu verwenden. Der `link_to`-Hel
     </li>
   <% end %>
 </ul>
-```
-
+```  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
 
 
