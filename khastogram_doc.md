@@ -23,8 +23,10 @@
     21. [SCSS](#scss)  
     22. [Webpack](#webpack)  
 23. [Home Seite](#home-seite)  
-    24. [Login View](#login-view)  
-25. [Selbstreflexion](#selbstreflexion)  
+    24. [CSS-Sprites](#css-sprites)
+    25. [User Model Erweitern](#user-model-erweitern)
+    26. [Login View](#login-view)  
+27. [Selbstreflexion](#selbstreflexion)  
 
 --- 
 
@@ -876,7 +878,7 @@ Und hier sind die Screenshots von Views (Home Page, Login und Registrierung):
 
 # Selbstreflexion
 
-**Was habe ich gelernt? Was wusste ich bereits?**
+##### **Was habe ich gelernt? Was wusste ich bereits?**
 
 Bereits gewusst:
 - Installation von Paketen mittels gem
@@ -897,22 +899,22 @@ Neu für mich war das RubyGem `devise` Paket, dies ist ein sehr praktisches Tool
 Dank der Quicknotes, die wir in diesem Projekt schreiben sollten, habe ich meine Fähigkeiten in Markdown verbessert. Ich habe noch nie ein so umfangreiches Dokument mit Markdown geschrieben. 
 Ich habe auch cool gefunden dass wir über GitLab zusammen mit Lehrerin arbeiten könnten durch den Feedback auf den Commits könnte man seine Applikation verbessern. Git kenne ich bereit und da habe ich auch nichts neues gelernt.
 
-**Wie bin ich vorgegangen beim Lernen bzw. Ausführen des Auftrages?**
+##### **Wie bin ich vorgegangen beim Lernen bzw. Ausführen des Auftrages?**
 
 Zuerst habe ich mir alle Arbeitsblätter durchgeschaut, damit ich mir ein bisschen ein Gesamtbild im Kopf machen könnte und nach jeder Aufgabe für die nächste bereit wäre. Dann habe ich angefangen, die Aufgaben Schritt für Schritt zu lösen. 
 Die Arbeitsblätter sind sehr gut gemacht und die Schritte sind sehr gut beschrieben. Besonders gut gefallen hat mir, dass die Arbeitsblätter sehr aktuell sind. In manchen Büchern oder Online-Tutorials ist es oft so, dass sie nicht mehr aktuell sind und beim Nacharbeiten der Aufgaben, wenn man nicht die gleiche Softwareversion verwendet hat, zu merkwürdigen Fehlern führt und das macht schlussendlich die weiteren Aufgabenstellungen nicht machbar. 
 In der Situation, in der mir nicht ganz klar war, wie die eine oder andere Aufgabe zu lösen ist, habe ich selbst im Internet nachgeschlagen und zunächst versucht, die Aufgaben selbst zu lösen. Wenn ich das Problem nicht selbst lösen konnte, habe ich den Lehrer gefragt und sehr schnell Hilfe bekommen. Zum Beispiel bei der Aufgabe, wo es um Bootstrap-Komponenten ging, musste ich fast immer in der offiziellen Dokumentation nachschauen, obwohl ich schon sehr lange mit Bootstrab arbeite. Ich fühle mich sicherer und finde es einfacher, die Beispiele auf der Bootstrap-Website zu kopieren und sie dann anzupassen.
 Ruby on Rails finde ich ein tolles Framework, aber ich bevorzuge in meinen Projekten immer noch das Django-Framework. Django hat eine etwas andere Sicht auf das MVC-Design und hat es anders gemacht, nämlich MTV-Model Template View. Die beiden Lösungen singen fast ähnlich. Da ich noch nicht so viel mit Rails gearbeitet habe, musste ich doch in der Dokumentation nachschlagen. Rails verlässt sich stark auf Namenskonventionen und deshalb gibt es eine Menge "magischer" Dinge, die man erst erreichen kann, wenn man die Rails-Namenskonventionen gut kennt. Aber es ist auch eine gute Sache, nachdem man dies gelernt hat, erhöht es die Geschwindigkeit beim Entwerfen neuer Projekte.
 
-**Was waren die Schwierigkeiten, wie konnte ich diese lösen?**
+##### **Was waren die Schwierigkeiten, wie konnte ich diese lösen?**
 
 Wie bereits erwähnt, sind die Arbeitsblätter sehr gut gemacht und die Einführung in das Thema ist sehr verständlich. Dies führte entsprechend problemlos zur Lösung der Aufgabe. Dank meiner Erfahrung mit MVC-Frameworks sowie Bootstrap und jQuery konnte ich die Aufgaben ohne Probleme lösen. Allerdings gab es zu Beginn Schwierigkeiten mit den Arbeitsblättern, da diese in zwei Teile (Webpack und Sprockets) aufgeteilt waren. Aus meiner Sicht wurde es unnötig kompliziert gemacht, denn das Webpack funktionierte hervorragend und Sprockets wurde nicht benötigt. Ich habe zuerst mit den Sprockets angefangen und als ich diesen Builder irgendwo eingesetzt habe, hat es aufgehört zu funktionieren. Dann habe ich mich entschieden, mit dem Standard-Builder Webpack weiterzumachen und habe dadurch etwas Zeit verloren. Als ich es mit Webpack gemacht habe, hat es ohne Probleme funktioniert und ich konnte alle Aufgaben bis zum Arbeitsblatt 3 lösen.
 
-**Was habe ich nicht verstanden bzw. was konnte ich nicht lösen?**
+##### **Was habe ich nicht verstanden bzw. was konnte ich nicht lösen?**
 
 Ich habe alle Aufgaben bis zum Arbeitsblatt 3 gelöst und es gab keine, die ich nicht lösen konnte. Ich fand es auch nicht zu kompliziert und ich habe alles verstanden. Mal sehen, was bei den nächsten Arbeitsblättern kommt.
 
-**Was kann ich nächstes Mal besser machen?**
+##### **Was kann ich nächstes Mal besser machen?**
 
 Das Home Page werde ich verbessern. Ich denke da wir eine Instagramm App bauen braucht es da einen Feed Page so wie es in dem Echten Istagram ist. Dazu kommt dann weitere Views so wie Profile View, Einstellungs View usw... Ich werde auch das Layout an mobile Geräte anpassen und da werden mir die Bootstrap Responsive Klassen helfen. Ich werde bestimmt meinen Code so viel wie möglich teilen und dank der Rails `render` Methode ist es ziemlich einfach.
 
