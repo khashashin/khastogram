@@ -861,26 +861,38 @@ Die Registrierungsseite ist nicht viel unterschiedlich, wir müssen nur das Form
 ```
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
-Und hier sind die Screenshots von zwei Views (Login und Registrierung):
+Und hier sind die Screenshots von Views (Home Page, Login und Registrierung):
+
+![image](https://user-images.githubusercontent.com/17837758/112716395-7c105700-8ee6-11eb-969b-fee1dc96c70d.png)
+
+---
 
 ![image](https://user-images.githubusercontent.com/17837758/112714445-b07e1600-8eda-11eb-9b8a-605c5bfe760a.png)
+
 ---
+
 ![image](https://user-images.githubusercontent.com/17837758/112714456-b542ca00-8eda-11eb-8ddd-91509b7bae30.png)
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 # Selbstreflexion
 
-|Was habe ich gelernt? Was wusste ich bereits? |
-|----|
-| Ich arbeite seit 2017 im Bereich der Webentwicklung und kenne das Bootstrap Framework sowie jQuery. Die CSS Sprites Technik habe ich aber nicht so oft benutzt, das finde ich wirklich toll, ist aber auch mit Vorsicht zu geniessen z.B. wenn die Bilder angepasst werden müssen, muss man durch das ganze CSS gehen und die Positionen auch anpassen und das kann je nach Projekt auch sehr aufwendig sein. Neu für mich war das RubyGem `devise` Paket, dies ist ein sehr praktisches Tool. Ich habe es immer als sehr verantwortungsvoll für alles empfunden, was mit Authentifizierung zu tun hat und deshalb versuche ich immer, "Plug&Play"-Lösungen für die Authentifizierung in meinen Projekten zu verwenden. Auf diese Weise fühle ich mich sicherer, denn oft sind in solchen Projekten viele Leute beteiligt und der Sicherheitsaspekt spielt eine sehr wichtige Rolle. Die Routen die der `devise` erstellt sind auch sehr nützlich. Dank der Quicknotes, die wir in diesem Projekt schreiben sollten, habe ich meine Fähigkeiten in Markdown verbessert. Ich habe noch nie ein so umfangreiches Dokument mit Markdown geschrieben. |
+**Was habe ich gelernt? Was wusste ich bereits?**
 
-| Wie bin ich vorgegangen beim Lernen bzw. Ausführen des Auftrages? |
-|---|
-| Zuerst habe ich nur die Anleitungen befolgt, wo es Aufträge gab, habe ich selbst im Internet gesucht und so die Aufgaben gelöst. Besonders ging solche Vorgehensweise bei der Dokumentation der Bootstrap-Komponenten. Vieles, was Rails betraf, musste ich nachschauen, weil ich das Rails-Fraimwork nicht so oft benutze. |
+Ich arbeite seit 2017 im Bereich der Webentwicklung und kenne das Bootstrap Framework sowie jQuery. Die CSS Sprites Technik habe ich aber nicht so oft benutzt, das finde ich wirklich toll, ist aber auch mit Vorsicht zu geniessen z.B. wenn die Bilder angepasst werden müssen, muss man durch das ganze CSS gehen und die Positionen auch anpassen und das kann je nach Projekt auch sehr aufwendig sein. 
+Neu für mich war das RubyGem `devise` Paket, dies ist ein sehr praktisches Tool. Ich habe es immer als sehr verantwortungsvoll für alles empfunden, was mit Authentifizierung zu tun hat und deshalb versuche ich immer, "Plug&Play"-Lösungen für die Authentifizierung in meinen Projekten zu verwenden. Auf diese Weise fühle ich mich sicherer, denn oft sind in solchen Projekten viele Leute beteiligt und der Sicherheitsaspekt spielt eine sehr wichtige Rolle. Die Routen die der `devise` erstellt sind auch sehr nützlich. 
+Dank der Quicknotes, die wir in diesem Projekt schreiben sollten, habe ich meine Fähigkeiten in Markdown verbessert. Ich habe noch nie ein so umfangreiches Dokument mit Markdown geschrieben. 
+Ich habe auch cool gefunden dass wir über GitLab zusammen mit Lehrerin arbeiten könnten durch den Feedback auf den Commits könnte man seine Applikation verbessern. Git kenne ich bereit und da habe ich auch nichts neues gelernt.
 
-| Was waren die Schwierigkeiten, wie konnte ich diese lösen? |
-|---|
-| Ich habe die Aufgaben ohne Probleme gelöst. Allerdings gab es zu Beginn Schwierigkeiten bezüglich der Arbeitsblätter, da diese in zwei Teile (Webpack und Sprockets) aufgeteilt waren. Aus meiner Sicht wurde es unnötig kompliziert gemacht, da das Webpack super funktionierte und Sprockets nicht benötigt wurde. |
+**Wie bin ich vorgegangen beim Lernen bzw. Ausführen des Auftrages?**
+
+Zuerst habe ich mir alle Arbeitsblätter durchgeschaut, damit ich mir ein bisschen ein Gesamtbild im Kopf machen könnte und nach jeder Aufgabe für die nächste bereit wäre. Dann habe ich angefangen, die Aufgaben Schritt für Schritt zu lösen. 
+Die Arbeitsblätter sind sehr gut gemacht und die Schritte sind sehr gut beschrieben. Besonders gut gefallen hat mir, dass die Arbeitsblätter sehr aktuell sind. In manchen Büchern oder Online-Tutorials ist es oft so, dass sie nicht mehr aktuell sind und beim Nacharbeiten der Aufgaben, wenn man nicht die gleiche Softwareversion verwendet hat, zu merkwürdigen Fehlern führt und das macht schlussendlich die weiteren Aufgabenstellungen nicht machbar. 
+In der Situation, in der mir nicht ganz klar war, wie die eine oder andere Aufgabe zu lösen ist, habe ich selbst im Internet nachgeschlagen und zunächst versucht, die Aufgaben selbst zu lösen. Wenn ich das Problem nicht selbst lösen konnte, habe ich den Lehrer gefragt und sehr schnell Hilfe bekommen. Zum Beispiel bei der Aufgabe, wo es um Bootstrap-Komponenten ging, musste ich fast immer in der offiziellen Dokumentation nachschauen, obwohl ich schon sehr lange mit Bootstrab arbeite. Ich fühle mich sicherer und finde es einfacher, die Beispiele auf der Bootstrap-Website zu kopieren und sie dann anzupassen.
+Ruby on Rails finde ich ein tolles Framework, aber ich bevorzuge in meinen Projekten immer noch das Django-Framework. Django hat eine etwas andere Sicht auf das MVC-Design und hat es anders gemacht, nämlich MTV-Model Template View. Die beiden Lösungen singen fast ähnlich. Da ich noch nicht so viel mit Rails gearbeitet habe, musste ich doch in der Dokumentation nachschlagen. Rails verlässt sich stark auf Namenskonventionen und deshalb gibt es eine Menge "magischer" Dinge, die man erst erreichen kann, wenn man die Rails-Namenskonventionen gut kennt. Aber es ist auch eine gute Sache, nachdem man dies gelernt hat, erhöht es die Geschwindigkeit beim Entwerfen neuer Projekte.
+
+**Was waren die Schwierigkeiten, wie konnte ich diese lösen?**
+
+Ich habe die Aufgaben ohne Probleme gelöst. Allerdings gab es zu Beginn Schwierigkeiten bezüglich der Arbeitsblätter, da diese in zwei Teile (Webpack und Sprockets) aufgeteilt waren. Aus meiner Sicht wurde es unnötig kompliziert gemacht, da das Webpack super funktionierte und Sprockets nicht benötigt wurde.
 
 | Was habe ich nicht verstanden bzw. was konnte ich nicht lösen? |
 |---|
