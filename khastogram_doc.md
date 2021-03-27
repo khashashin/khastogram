@@ -499,8 +499,8 @@ cancel_user_registration GET    /users/cancel(.:format)             devise/regis
                          POST   /users(.:format)                    devise/registrations#create
 ```
 z.B wenn wir auf folgendes URL gehen http://localhost:4000/users/sign_in soltten wir einen Form sehen:
-![image](https://user-images.githubusercontent.com/17837758/112711057-c7fed400-8ec5-11eb-9289-653550f6d13b.png)
 
+![image](https://user-images.githubusercontent.com/17837758/112711057-c7fed400-8ec5-11eb-9289-653550f6d13b.png)
 
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
@@ -573,10 +573,304 @@ Webpack ist derzeit einer der leistungsstärksten solchen Bundler, also Modular 
 **Nachteile**: Es ist etwas schwierig herauszufinden, wie es funktioniert, ein Teil der Dokumentation ist aufgrund der vielen Änderungen bei Updates veraltet.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
+# Home Seite
+Für den Home Seite erstellen wir einen `pages` Kontroller mit eine `home`-View:
+```
+rails generate controller pages home
+```
+Und editieren den `config/routes.rb` Detei damit es automatisch den neu erstelltes `home`-View ladet wenn man auf die Root Seite `http://localhost:3000/` geht.
+```
+Rails.application.routes.draw do
+    root "pages#home"
+    #...
+end
+```
+Damit den unauterisierte Benutzer automatisch auf Login-View weitergeleitet wird ändern wir den `home`-Methode in `app/controllers/pages_controller.rb`:
+```
+class PagesController < ApplicationController
+  def home
+    if !user_signed_in?
+      redirect_to new_user_session_path
+    end
+  end
+end
+```
+Wir wollen auch zwei Partial Views für die Kopf- und Fusszeile verwenden, wir erstellen sie unter `app/views/shared/`. Dort können wir auch weitere Partial Views anlegen, um Redundanz in unserer Applikation zu reduzieren. In diesem Sinne wird sie "Shared" genannt. Wir nennen die beiden Dateien `_navbar.html.erb` und `_footer.html.erb` und schreiben dort entsprechend den folgenden Code:
+```
+<!-- _navbar.html.erb -->
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <%= link_to "Home", root_path, class: "navbar-brand core-sprite hide-text", title: "Home" %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <form class="form-inline my-2 my-lg-0 ml-md-auto">
+        <input class="form-control mr-sm-2 text-center" type="search" placeholder="Search" aria-label="Search">
+      </form>
+      <ul class="navbar-nav ml-md-auto">
+        <li class="nav-item">
+          <a class="nav-link core-sprite explore-icon hide-text" href="#"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link core-sprite notification-icon hide-text" href="#"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link core-sprite profile-icon hide-text" href="#"></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+```
+<!-- _footer.html.erb -->
+<footer style="position:absolute;bottom: 0">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-
+            toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <div class="navbar-nav mx-auto">
+        <a href="#" class="nav-item nav-link">ABOUT US</a>
+        <a href="#" class="nav-item nav-link">SUPPORT</a>
+        <a href="#" class="nav-item nav-link">BLOG</a>
+        <a href="#" class="nav-item nav-link">PRESS</a>
+        <a href="#" class="nav-item nav-link">API</a>
+        <a href="#" class="nav-item nav-link">JOB</a>
+        <a href="#" class="nav-item nav-link">PRIVACY</a>
+        <a href="#" class="nav-item nav-link">TERMS</a>
+        <a href="#" class="nav-item nav-link">DIRECTORY</a>
+        <a href="#" class="nav-item nav-link">LANGUAGE</a>
+      </div>
+    </div>
+  </nav>
+</footer>
+```
+**Beschreiibung von einige CSS Klassen die in dieser zwei Dateien verwendet wurde:**  
+- `navbar` - Bootstrap CSS-Klass ist ein Umhüller für den Kopszeile benötigt eine zusätzliche CSS class `navbar-expand{-sm|-md|-lg|-xl}`
+- `navbar-expand-lg` - Bootstrap CSS-Klass stellt sicher dass der Kopfzeile auf Desktop Geräte erweitert wird.
+- `navbar-brand` - Bootstrap CSS-Klass ist ein Umhüller für den Logo
+- `hide-text` - Eigenes-Klass, stellt sicher dass das Text von `a` Elementen nicht angezeigt wird. Das machen wir weil wir da Logo oder icons verwenden.
+- `core-sprite` Eigenes-Klass, basiert auf der Verwendung der [CSS-Sprites](#CSSSprit-es)-Technik
 
+Nun können wir die Kopf- und Fusszeile mit eine `render`-Methode anzeigen:
+```
+<%=render 'shared/navbar'%>
+<%=render 'shared/footer'%>
+```
 
+##### CSS-Sprites
+CSS-Spriting ist eine Möglichkeit, viele Bilder zu einem einzigen zu kombinieren, so dass:
+- Die Anzahl der Anfragen an den Server wird reduziert.
+- Hochladen mehrerer Bilder auf einmal, einschließlich derjenigen, die in Zukunft benötigt werden.
+- Wenn die Bilder eine ähnliche Palette haben, wird das zusammengeführte Bild kleiner sein als die Summe der Originalbilder.
 
+##### User Model erweitern
+Es fehlt in unseren Datenbank den Benutzername und ihn wolleb wir mithilfe den Active Record erstellen. Wir fangen mit eine Migrationsdatei an.
+```
+rails generate migration AddNameToUsers
+```
+Und ändern den `change`-Methode so dass es neu ein `name`-Attribut mit Type `string` erstellt:
+```
+class AddNameToUsers < ActiveRecord::Migration[6.1]
+  def change
+    add_column :users, :name, :string
+  end
+end
+```
+Wir wollen auch sicherstellen, dass der Benutzername immer angegeben wird und dass die maximale Länge nicht mehr als 50 beträgt.
+```
+class User < ApplicationRecord
+  validates_length_of :name, maximum: 50, allow_blank: false
+end
+```
+
+##### Login-View
+Wir möchten nicht, dass die Kopfzeile angezeigt wird, wenn man nicht angemeldet ist. Also können wir dies durch die Verwendung des `current_user` der `devise`-Pakete sicherstellen. In `application.html.erb` ändern wir den `render`-Methode welches den Kopfzeile importiert:
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KhasInstagram151</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% if current_user.present? %>
+        <%= render 'shared/navbar'%>
+    <% end %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
+
+    <%= render 'shared/footer'%>
+  </body>
+</html>
+```
+Die Datei, die das Paket `devise` für die Login-Ansicht verwendet, heisst `/app/view/devise/sessions/new.html.erb`, diese können wir anpassen. Da machen wir auf der einen Seite eine Bootstrap-Karussell-Komponente und auf der anderen Seite ein Anmeldeformular. Da wir die Bootstrap-Karussell-Komponente später auch auf der Registrierungsseite benötigen, erstellen wir gleich eine Partiel-View für sie:
+```
+<div class="dummy-phone">
+  <div class="screen-shot">
+    <div class="carousel carousel-fade" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <%= image_tag "screenshot1.jpg", height: '427', width: '240' %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "screenshot2.jpg", height: '427', width: '240' %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "screenshot3.jpg", height: '427', width: '240' %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "screenshot4.jpg", height: '427', width: '240' %>
+        </div>
+        <div class="carousel-item">
+          <%= image_tag "screenshot5.jpg", height: '427', width: '240' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+Und diese können wir nun in der Login View verwenden:
+```
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 landing-left">
+      <%= render 'shared/dummy_phone'%>
+    </div>
+    <div class="col-lg-6 landing-right text-center d-flex align-items-center">
+        <!-- ... -->
+    </div>
+  </div>
+</div>
+```
+**Beschreiibung von einige CSS Klassen die in dummy_phone Datei verwendet wurde:** 
+- col-lg-6 - Teilt das `row` auf zwei Seiten.
+- carousel - Bootstrap CSS-Klass ist ein Umhüller für den Karussell-Komponente.
+- active - Dient um den Aktiven (sichtbar) Slider zu setzen.
+- carousel-inner - Fügt Folien zum Karussell hinzu.
+- carousel-item - Legt den Inhalt der einzelnen Slides fest.
+- carousel-fade - sorgt für einen Fade-Effekt im Slider innerhalb des Dummy-Phones.
+
+Jetzt fügen wir das Anmeldeformular in das zweite `col-lg-6` (Insgesamt definiert Bootstrap 12 Column) ein, so dass es auf die rechte Seite wandert, da wir die `row` auf zwei Seiten aufgeteilt haben, werden sie nach links und nach rechts verschoben. Darüber hinaus hat das Paket `devise` auch partielle Views wie `devise/shared/_links.html.erb`, die verschiedene vordefinierte Links enthält. Auch diese fügen wir ganz unten wie in folgenden Beispiel ein.
+```
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 landing-left">
+      <%= render 'shared/dummy_phone'%>
+    </div>
+    <div class="col-lg-6 landing-right text-center d-flex align-items-center">
+      <div>
+        <div class="form-login box">
+          <h3 class="core-sprite brand-name-img"></h3>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="form-group">
+              <%= f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control" %>
+            </div>
+            <% if devise_mapping.rememberable? %>
+              <div class="form-check">
+                <%= f.check_box :remember_me, class: "form-check-input" %>
+                <%= f.label :remember_me, class: "form-check-label" %>
+              </div>
+              <br/>
+            <% end %>
+            <div class="actions">
+              <%= f.submit "Log in", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+        <div class="redirect-links box">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+Die Registrierungsseite ist nicht viel unterschiedlich, wir müssen nur das Formular anpassen und können fast alles von Login-View übernehmen.
+```
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 landing-left">
+      <%= render 'shared/dummy_phone'%>
+    </div>
+    <div class="col-lg-6 landing-right text-center d-flex align-items-center">
+      <div>
+        <div class="form-login box">
+          <h3 class="core-sprite brand-name-img"></h3>
+          <h5 class="light-color"><strong>Sign up to see photos and <br />
+            videos from your friends.</strong></h5>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
+            <div class="form-group">
+              <%= f.text_field :name, autofocus: true, placeholder: "Your name", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.email_field :email, autofocus: false, placeholder: "Email", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm password", class: "form-control" %>
+            </div>
+            <div class="actions">
+              <%= f.submit "Sign up", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+          <p class="light-color pt-3">By signing up, you agree to our <br />
+            <strong>Term &amp; Privacy Policy.</strong></p>
+        </div>
+        <div class="redirect-links box">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Und hier sind die Screenshots von zwei Views (Login und Registrierung):
+
+![image](https://user-images.githubusercontent.com/17837758/112714445-b07e1600-8eda-11eb-9b8a-605c5bfe760a.png)
+---
+![image](https://user-images.githubusercontent.com/17837758/112714456-b542ca00-8eda-11eb-8ddd-91509b7bae30.png)
+
+# Selbstreflexion
+
+|Was habe ich gelernt? Was wusste ich bereits? |
+|----|
+| Ich arbeite seit 2017 im Bereich der Webentwicklung und kenne das Bootstrap Framework sowie jQuery. Die CSS Sprites Technik habe ich aber nicht so oft benutzt, das finde ich wirklich toll, ist aber auch mit Vorsicht zu geniessen z.B. wenn die Bilder angepasst werden müssen, muss man durch das ganze CSS gehen und die Positionen auch anpassen und das kann je nach Projekt auch sehr aufwendig sein. Neu für mich war das RubyGem `devise` Paket, dies ist ein sehr praktisches Tool. Ich habe es immer als sehr verantwortungsvoll für alles empfunden, was mit Authentifizierung zu tun hat und deshalb versuche ich immer, "Plug&Play"-Lösungen für die Authentifizierung in meinen Projekten zu verwenden. Auf diese Weise fühle ich mich sicherer, denn oft sind in solchen Projekten viele Leute beteiligt und der Sicherheitsaspekt spielt eine sehr wichtige Rolle. Die Routen die der `devise` erstellt sind auch sehr nützlich. Dank der Quicknotes, die wir in diesem Projekt schreiben sollten, habe ich meine Fähigkeiten in Markdown verbessert. Ich habe noch nie ein so umfangreiches Dokument mit Markdown geschrieben. |
+
+| Wie bin ich vorgegangen beim Lernen bzw. Ausführen des Auftrages? |
+|---|
+| Zuerst habe ich nur die Anleitungen befolgt, wo es Aufträge gab, habe ich selbst im Internet gesucht und so die Aufgaben gelöst. Besonders ging solche Vorgehensweise bei der Dokumentation der Bootstrap-Komponenten. Vieles, was Rails betraf, musste ich nachschauen, weil ich das Rails-Fraimwork nicht so oft benutze. |
+
+| Was waren die Schwierigkeiten, wie konnte ich diese lösen? |
+|---|
+| Ich habe die Aufgaben ohne Probleme gelöst. Allerdings gab es zu Beginn Schwierigkeiten bezüglich der Arbeitsblätter, da diese in zwei Teile (Webpack und Sprockets) aufgeteilt waren. Aus meiner Sicht wurde es unnötig kompliziert gemacht, da das Webpack super funktionierte und Sprockets nicht benötigt wurde. |
+
+| Was habe ich nicht verstanden bzw. was konnte ich nicht lösen? |
+|---|
+| Ich habe alle Aufgaben bis zu Arbeitsblatt 3 gelöst und es gab keine, die ich nicht lösen konnte. Mal sehen, was bei den nächsten Arbeitsblättern kommt. |
+
+| Was kann ich nächstes Mal besser machen? |
+|---|
+| Ich werde bestimmt meinen Code so viel wie möglich teilen und dank der Rails `render` Methode ist es ziemlich einfach. Ich werde auch das Layout an mobile Geräte anpassen und da werden mir die Bootstrap Responsive Klassen helfen. |
 
 
 
