@@ -9,10 +9,10 @@
     7. [Beziehungen in Modellen](#Beziehungen-in-Modellen)  
     8. [Controller](#Controller)  
     9. [Routen](#Routen)  
-    10. [Views](#Views)  
+    10. [Views](#Views)
 11. [CRUD](#CRUD)  
-    12. [C](#Betrachten-wir-diese-Funktionen-mit-Hilfe-von-Beispielen-und-fangen-gleich-mit-C-an.)  
-    13. [R](Dann-kommt-das-“R”-von-CRUD.)  
+    12. [C](#betrachten-wir-diese-funktionen-mit-hilfe-von-beispielen-und-fangen-gleich-mit-c-an)  
+    13. [R](#dann-kommt-das-r-von-crud)  
 
 --- 
 
