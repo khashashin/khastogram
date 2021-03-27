@@ -9,10 +9,13 @@
     7. [Beziehungen in Modellen](#Beziehungen-in-Modellen)  
     8. [Controller](#Controller)  
     9. [Routen](#Routen)  
-    10. [Views](#Views)
+    10. [Views](#Views)  
 11. [CRUD](#CRUD)  
     12. [C](#betrachten-wir-diese-funktionen-mit-hilfe-von-beispielen-und-fangen-gleich-mit-c-an)  
     13. [R](#dann-kommt-das-r-von-crud)  
+    14. [U](#artikel-update)  
+    15. [D](#artikel-delete)  
+16. [Modell Assoziationen](#modell-assoziationen)
 
 --- 
 
@@ -191,6 +194,28 @@ Die erste Validierung besagt, dass der `titel`-Wert vorhanden sein muss. Da der 
 Die zweite Validierung besagt, dass der `body`-Wert ebenfalls vorhanden sein muss. Ausserdem wird festgelegt, dass die Länge des `body`-Wertes mindestens 10 Zeichen betragen muss.
 >Active Record definiert automatisch Modellattribute für jede Tabellenspalte, so dass es nicht notwendig ist, diese Attribute in der Modelldatei zu deklarieren.
 
+Es besteht jedoch verschiedene Möglichkeiten, Daten zu validieren, bevor sie in einer Datenbank gespeichert werden:
+- Validierungen auf Modell-Ebene (native Datenbankeinschränkungen)
+- Clientseitige Validierungen
+- Validierungen auf Controller-Ebene
+
+Mit Validierungen wird sichergestellt, dass nur gültige Daten in die Datenbank gespeichert werden. Beispielsweise kann es für eine Anwendung wichtig sein, sicherzustellen, dass jeder Benutzer eine gültige E-Mail-Adresse und eine gültige Postanschrift angibt. Validierungen sind datenbankunabhängig im Sinne, dass Sie auf verschieden Datenbanken anwendbar sind. Validierungen können nicht von Endbenutzern umgangen werden und sind für Entwicklerinnen und Entwickler bequem zu testen und zu warten.
+
+Folgende Methoden machen keine Validierung und speichern Objekte im Modell ohne Prüfung ab. Deshalb muss man diese Methoden mit Vorsicht angewandten:
+```
+    decrement!
+    decrement_counter
+    increment!
+    increment_counter
+    toggle!
+    touch
+    update_all
+    update_attribute
+    update_column
+    update_columns
+    update_counters
+```
+
 Das Formular erstellen wir in folgendes Datei `app/views/articles/new.html.erb`:
 ```
 <h1>New Article</h1>
@@ -311,9 +336,122 @@ Oder man könnte auch die Hilfemethode `link_to` zu verwenden. Der `link_to`-Hel
 ```  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
+##### Artikel-Update
+Das Aktualisieren einer Ressource ist dem Erstellen einer Ressource sehr ähnlich. Es handelt sich bei beiden um mehrstufige Prozesse. Zunächst fordert der Benutzer ein Formular zum Bearbeiten der Daten an. Dann sendet der Benutzer das Formular ab. Wenn keine Fehler aufgetreten sind, wird die Ressource dann aktualisiert. Andernfalls wird das Formular erneut mit Fehlermeldungen angezeigt und der Vorgang wiederholt sich. Konventionell werden diese Schritte von den `edit`- und `update`-Aktionen des Controllers übernommen. Eine typische Implementierung dieser Aktionen fügen wir in `app/controllers/articles_controller.rb` ein:
+```
+class ArticlesController < ApplicationController
+  def edit
+    @article = Article.find(params[:id])
+  end
 
+  def update
+    @article = Article.find(params[:id])
 
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render :edit
+    end
+  end
 
+  private
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
+end
+```
+Die Methode `"edit"` holt den Artikel aus der Datenbank und speichert ihn in `@article`, so dass er für den Aufbau des Formulars verwendet werden kann. Standardmässig rendert die Methode `"edit"` die Datei `app/views/articles/edit.html.erb`. Die `update`-Methode holt den Artikel (erneut) aus der Datenbank und versucht, ihn mit den in `article_params` gefilterten Daten des übermittelten Formulars zu aktualisieren. Wenn keine Validierung fällt und die Aktualisierung erfolgreich ist, leitet diese Methode den Browser auf die Artikelseite um. Andernfalls wird die Methode das Formular mit Fehlermeldungen erneut anzeigen und `app/views/articles/edit.html.erb` wiedergeben.  
+Da das `edit`-Formular genauso aussieht wie das `new`-Formular, sogar der Code wird dank des Rails-Formular-Builders und des Ressourcen-Routings gleich sein, kann man eine gemeinsame View erstellen, die _partiell_ `app/views/articles/_form.html.erb` mit dem folgenden Inhalt heisst:
+```
+<%= form_with model: article, local: true do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <%= article.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %><br>
+    <%= article.errors.full_messages_for(:body).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+```
+Der obige Code ist derselbe wie das Formular in `app/views/articles/new.html.erb`, mit der Ausnahme, dass alle Instanzen von `@article` durch `article` ersetzt werden. Da es sich bei Partials um kollaborativen Code handelt, ist es eine gute Praxis, sie nicht von bestimmten Instanzvariablen abhängig zu machen, die von der Controller-Methode gesetzt werden. Stattdessen wird der Artikel als lokale Variable an den Partial übergeben. Dafür muss man den `app/views/articles/new.html.erb` und `app/views/articles/edit.html.erb` aktualisieren damit sie den `render` methode verwenden.
+```
+# app/views/articles/new.html.erb
+<h1>New Article</h1>
+
+<%= render "form", article: @article %>
+```
+```
+# app/views/articles/edit.html.erb
+<h1>Edit Article</h1>
+
+<%= render "form", article: @article %>
+```
+>Der Name der Partialdatei muss mit einem Unterstrich beginnen, also `_form.html.erb`. Beim Rendern verweisen wir aber ohne Unterstrich darauf, also `rendern "form"`.  
+
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+##### Artikel-Delete
+Das Löschen einer Quelle ist ein einfacherer Vorgang als das Erstellen oder Aktualisieren einer Quelle. Es wird nur eine Route und eine Controller-Methode benötigt. Und unser Ressourcen-Routing (`resources :articles`) bietet bereits diese Route, die `DELETE /articles/:id`-Anfragen mit der `destroy`-Methode im `ArticlesController` verknüpft.
+```
+class ArticlesController < ApplicationController
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+
+    redirect_to root_path
+  end
+end
+```  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+# Modell Assoziationen
+Wie wir bereits in Bereich [Beziehungen in Modellen](#Beziehungen-in-Modellen) beschrieben habe werden die Assoziationen  immer im Model beschrieben. Einen neuen Model kann mit folgendes Befehl erstellt werden:
+```
+$ rails generate model Artikel title:string body:text author:references
+```
+Dieser Befehl erzeugt vier Dateien:
+| Datei | Funktion |
+|---|---|
+| db/migrate/2021032701010_create_artikels.rb | Migration zum Erstellen einer `artikels`-Tabelle in der Datenbank |
+| app/models/artikel.rb | Model Artikel |
+| test/models/artikel_test.rb | Gerüst zum Testen des Artikelmodells |
+| test/fixtures/artikels.yml | Artikelmuster zur Verwendung in Tests |
+
+Mit Active Record-Beziehungen lassen sich auf einfache Weise Beziehungen zwischen zwei Modellen deklarieren. Im Fall von Artikel und Autor kann man die Beziehung wie folgt beschreiben:
+- Jeder Artikel gehört zu einem Autor.
+- Ein Autor kann viele Artikel haben.
+
+Und so sieht die Modelle aus:
+```
+class Author < ApplicationRecord
+  has_many :artikels
+
+  validates :name, presence: true
+  validates :addresse, presence: true
+end
+```
+Und Artikel Model:
+```
+class Artikel < ApplicationRecord
+  belongs_to :author
+  
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+```
+`has_many` symbolisiert der 1-seitige Beziehung, dass dieses Modell viele Assoziationspartner besitzt. Die eindeutige Zuordnung der N-Seite wird dagegen weiterhin durch ein belongs_to angezeigt. Für die Navigation bzw. Zuweisung sind die Veränderungen ebenso einseitig.
 
 
 
