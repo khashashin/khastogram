@@ -10,6 +10,9 @@
     8. [Controller](#Controller)  
     9. [Routen](#Routen)  
     10. [Views](#Views)
+11. [CRUD](#CRUD)
+    12. [C](#Betrachten-wir-diese-Funktionen-mit-Hilfe-von-Beispielen-und-fangen-gleich-mit-C-an.)
+    13. [R](Dann-kommt-das-“R”-von-CRUD.)
 
 --- 
 
@@ -30,7 +33,6 @@ Es spielt eigentlich keine Rolle, welche Art von Datenbank man verwendet. Active
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ## Namenskonventionen in Ruby On Rails
-
 In Ruby on Rails gilt oft die Regel "Konvention vor Konfiguration" - anstatt explizit festzulegen, was mit was zusammenhängt und wie es funktioniert, einigen sich die Entwickler einfach auf einige Regeln für die Benennung von Entitäten und halten sich daran, um ihr Leben zu vereinfachen und die Menge des benötigten Codes zu reduzieren.
 Alle Regeln aufzulisten würde viel Platz und Zeit in Anspruch nehmen, aber hier sind einige von denen, die bei der Entwicklung einer Instagram-App wichtig zu wissen sind.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
@@ -82,7 +84,9 @@ end
 
 ##### Beziehungen in Modellen
 - `snake_case` wird zur Kennzeichnung von Beziehungen verwendet. Sie hängen von der Art der Verknüpfung ab: `has_one` und `belongs_to` sind **Singular**, `has_many` ist **Plural**.
-- Bei externen Schlüsseln in der Datenbank wird angenommen, dass sie ein `_id`-Suffix haben - sie werden automatisch mit Beziehungen abgeglichen, wenn die Namen übereinstimmen. Beispiel:
+- Bei externen Schlüsseln in der Datenbank wird angenommen, dass sie ein `_id`-Suffix haben - sie werden automatisch mit Beziehungen abgeglichen, wenn die Namen übereinstimmen. 
+- `created_at` Ermittelt automatisch das aktuelle Datum und die Uhrzeit, wann der Datensatz erstellt wurde.
+- `updated_at` Bei jeder Aktualisierung des Datensatzes wird automatisch das aktuelle Datum und die aktuelle Uhrzeit eingetragen. Beispiel:
 ```
 # app/models/firma.rb
 class Firma < ActiveRecord::Base
@@ -129,6 +133,181 @@ resource :profile
 app/views/angestellten/index.html.erb
 app/views/firmas/index.html.erb
 ```
+
+## CRUD
+CRUD (create, read, update, delete) - vier grundlegende Funktionen, die bei der Arbeit mit Datenbanken und anderen Informationsspeichern verwendet werden:
+
+| Funktion               | SQL-Befehl | HTTP           |
+|------------------------|------------|----------------|
+| Create (Erstellen)     | INSERT     | POST           |
+| Read (Lesen)           | INSERT     | GET            |
+| Update (Aktualisieren) | UPDATE     | PUT oder PATCH |
+| Delete (Löschen)       | DELETE     | DELETE         |
+
+##### Betrachten wir diese Funktionen mit Hilfe von Beispielen und fangen gleich mit C an.
+Normalerweise ist das Erstellen einer neuen Ressource in Webanwendungen ein mehrstufiger Prozess. Zuerst fordert der Benutzer ein Formular zum Ausfüllen an. Dann sendet der Benutzer das Formular ab. Wenn es keine Fehler gibt, wird die Ressource erstellt und eine Bestätigung angezeigt. Andernfalls wird das Formular erneut mit Fehlermeldungen angezeigt, und der Vorgang wird wiederholt.
+
+In einer Rails-Anwendung werden diese Schritte traditionell von den Controller-Aktionen `new` und `create` erledigt. Beispiel von typische Implementierung dieser Aktionen in `app/controllers/articles_controller.rb`:
+```
+class ArticlesController < ApplicationController
+  def new
+    @article = Article.new
+  end
+
+  def create
+    @article = Article.new(title: "...", body: "...")
+
+    if @article.save
+      redirect_to @article
+    else
+      render :new
+    end
+  end
+  
+  private
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
+end
+```
+Aktion `new` initialisiert einen neuen Artikel, speichert ihn aber nicht. Dieser Artikel wird in der Ansicht beim Aufbau des Formulars verwendet. Standardmässig wird die neue Aktion `app/views/articles/new.html.erb` gerendert.
+Die Aktion `create` initialisiert einen neuen Artikel mit Werten für `title` und `body` und versucht, ihn zu speichern. Wenn der Artikel erfolgreich gespeichert wurde, leitet die Aktion den Browser auf die Artikelseite `"http://localhost:3000/articles/#{@article.id}"` um. Andernfalls zeigt die Aktion das Formular erneut an, indem sie `app/views/articles/new.html.erb` rendert.
+>`redirect_to` veranlasst den Browser, eine neue Anfrage zu stellen, wohingegen `render` die angegebene Ansicht für die aktuelle Anfrage rendert. Es ist wichtig, `redirect_to` nach einer Änderung des Datenbank- oder Anwendungsstatus zu verwenden. Andernfalls, wenn der Benutzer die Seite aktualisiert, wird der Browser die gleiche Anfrage stellen und die Änderung wird wiederholt.
+
+Die übermittelten Formulardaten werden in den `params`-Hash eingebettet, zusammen mit den erfassten Routenparametern. Die `create`-Aktion hat also Zugriff auf den gesendeten Titel als `params[:article][:title]` und auf den gesendeten Inhalt als `params[:article][:body]`. Diese Werte können separat an `Article.new` übergeben werden, aber das kann hässlich und fehleranfällig sein.
+Wir übergeben einen einzelnen Hash, der die Werte enthält. Wir müssen jedoch noch festlegen, welche Werte in diesem Hash gültig sind. Andernfalls könnte ein Angreifer möglicherweise zusätzliche Formularfelder senden und sensible Daten überschreiben. Wenn wir nämlich einen ungefilterten `params[:article]`-Hash direkt an `Article.new` übergeben, ruft Rails `ForbiddenAttributesError` auf, um uns auf das Problem hinzuweisen. Daher werden wir eine Rails-Funktion namens **_Strong Parameters_** zum Filtern von Parametern verwenden. Der private Methode am Ende von `app/controllers/articles_controller.rb`, genannt `article_params`, filtert params.
+
+**Form builder**
+Mit dem Form Builder kann man mit einem Minimum an Code ein vollständig angepasstes Formular ausgeben, das den Rails-Konventionen folgt. Um aber Fehlermeldungen anzeigen zu können, legen wir in Artikeln einige Validierungen an. Rails bietet eine Validierungsfunktion, die uns hilft, mit falschen Benutzereingaben umzugehen. Validierungen sind Regeln, die vor dem Speichern eines Modellobjekts überprüft werden. Wenn eine der Prüfungen fehlschlägt, wird der Speichervorgang abgebrochen und entsprechende Fehlermeldungen werden dem Attribut `errors` des Modellobjekts hinzugefügt. Validierungen für das Modell in `app/models/article.rb`:
+```
+class Article < ApplicationRecord
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+```
+Die erste Validierung besagt, dass der `titel`-Wert vorhanden sein muss. Da der Titel eine Zeichenkette ist, bedeutet dies, dass der `titel`-Wert mindestens ein Zeichen ohne Leerzeichen enthalten muss.
+Die zweite Validierung besagt, dass der `body`-Wert ebenfalls vorhanden sein muss. Ausserdem wird festgelegt, dass die Länge des `body`-Wertes mindestens 10 Zeichen betragen muss.
+>Active Record definiert automatisch Modellattribute für jede Tabellenspalte, so dass es nicht notwendig ist, diese Attribute in der Modelldatei zu deklarieren.
+
+Das Formular erstellen wir in folgendes Datei `app/views/articles/new.html.erb`:
+```
+<h1>New Article</h1>
+
+<%= form_with model: @article do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <%= @article.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %><br>
+    <%= @article.errors.full_messages_for(:body).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+```
+Die Helper-Methode `form_with` initialisiert den Form Builder. Im `form_with`-Block rufen wir Methoden wie `label` und `text_field` auf dem Form Builder auf, um die entsprechenden Formularelemente auszugeben.
+Die resultierende Ausgabe eines Aufrufs von form_with sieht wie folgt aus:
+```
+<form action="/articles" accept-charset="UTF-8" method="post">
+  <input type="hidden" name="authenticity_token" value="...">
+
+  <div>
+    <label for="article_title">Titel</label><br>
+    <input type="text" name="article[title]" id="article_title">
+  </div>
+
+  <div>
+    <label for="article_body">Text</label><br>
+    <textarea name="article[body]" id="article_body"></textarea>
+  </div>
+
+  <div>
+    <input type="submit" name="commit" value="Artikel erstellen" data-disable-with="Artikel erstellen">
+  </div>
+</form>
+```
+
+##### Dann kommt das "R" von CRUD.
+Standardmäßig werden für "R" die Methoden `index` und `show` verwendet. Unter `index` wird eine Übersicht über alle Elemente des Modells erstellt, und unter `show` werden einzelne Elemente angezeigt. Hier ist ein Beispiel:
+```
+class ArticlesController < ApplicationController
+  def index
+    @articles = Article.all
+  end
+
+  def show
+    @article = Article.find(params[:id])
+  end
+end
+```
+Wie oben erwähnt, benötigen wir auch Routen für die Anzeige einzelner Elemente sowie für die Methode `index`. Auf diese Weise könnten Routen erstellt werden:
+```
+Rails.application.routes.draw do
+  root "articles#index"
+
+  get "/articles", to: "articles#index"
+  get "/articles/:id", to: "articles#show"
+end
+```
+Mit dem `root "articles#index` sagen wir, dass unsere erste geladene Seite `"articles#index"` sein wird. Anstatt jede Routen selber zu definieren können wir auch eine Hilfemethode `resources` von Rails verwenden:
+```
+Rails.application.routes.draw do
+  root "articles#index"
+
+  resources :articles
+end
+```
+Mit dem Befehl `rails routes` lässt sich feststellen, welche Routen miteinander verbunden sind:
+```
+$ rails routes
+      Prefix Verb   URI Pattern                  Controller#Action
+        root GET    /                            articles#index
+    articles GET    /articles(.:format)          articles#index
+ new_article GET    /articles/new(.:format)      articles#new
+     article GET    /articles/:id(.:format)      articles#show
+             POST   /articles(.:format)          articles#create
+edit_article GET    /articles/:id/edit(.:format) articles#edit
+             PATCH  /articles/:id(.:format)      articles#update
+             DELETE /articles/:id(.:format)      articles#destroy
+```
+Die `resources`-Methode konfiguriert auch Hilfs-URL- und Pfad-Methoden, die verwendet werden können, um zu verhindern, dass unser Code von der Konfiguration einer bestimmten Route abhängt. Die Werte oben in der Spalte **"Präfix"** plus das Suffix `_url` oder `_path` bilden die Namen dieser Hilfsmethoden. Zum Beispiel gibt der Helfer `article_path` `"/articles/#{article.id}"` für einen bestimmten Artikel zurück. Nun erstellen wir die Übersichtsseite `app/views/articles/index.html.erb`:
+```
+<h1>Articles</h1>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <a href="<%= article_path(article) %>">
+        <%= article.title %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+```
+Oder man könnte auch die Hilfemethode `link_to` zu verwenden. Der `link_to`-Helfer erzeugt einen Link mit dem ersten Argument als Linktext und dem zweiten Argument als Linkadresse. Wenn wir das Modellobjekt als zweites Argument übergeben, ruft `link_to` den entsprechenden Pfadhelfer auf, um das Objekt in einen Pfad zu konvertieren.
+```
+<h1>Articles</h1>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, article %>
+    </li>
+  <% end %>
+</ul>
+```
+
+
 
 
 
