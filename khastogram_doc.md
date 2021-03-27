@@ -10,9 +10,9 @@
     8. [Controller](#Controller)  
     9. [Routen](#Routen)  
     10. [Views](#Views)
-11. [CRUD](#CRUD)
-    12. [C](#Betrachten-wir-diese-Funktionen-mit-Hilfe-von-Beispielen-und-fangen-gleich-mit-C-an.)
-    13. [R](Dann-kommt-das-“R”-von-CRUD.)
+11. [CRUD](#CRUD)  
+    12. [C](#Betrachten-wir-diese-Funktionen-mit-Hilfe-von-Beispielen-und-fangen-gleich-mit-C-an.)  
+    13. [R](Dann-kommt-das-“R”-von-CRUD.)  
 
 --- 
 
