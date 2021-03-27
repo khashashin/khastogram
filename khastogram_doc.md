@@ -667,7 +667,7 @@ Wir wollen auch zwei Partial Views für die Kopf- und Fusszeile verwenden, wir e
 - `navbar-expand-lg` - Bootstrap CSS-Klass stellt sicher dass der Kopfzeile auf Desktop Geräte erweitert wird.
 - `navbar-brand` - Bootstrap CSS-Klass ist ein Umhüller für den Logo
 - `hide-text` - Eigenes-Klass, stellt sicher dass das Text von `a` Elementen nicht angezeigt wird. Das machen wir weil wir da Logo oder icons verwenden.
-- `core-sprite` Eigenes-Klass, basiert auf der Verwendung der [CSS-Sprites](#CSSSprit-es)-Technik
+- `core-sprite` Eigenes-Klass, basiert auf der Verwendung der [CSS-Sprites](#CSS-Sprites)-Technik
 
 Nun können wir die Kopf- und Fusszeile mit eine `render`-Methode anzeigen:
 ```
@@ -878,6 +878,20 @@ Und hier sind die Screenshots von Views (Home Page, Login und Registrierung):
 
 **Was habe ich gelernt? Was wusste ich bereits?**
 
+Bereits gewusst:
+- Installation von Paketen mittels gem
+- Installation von Paketen mittels yarn
+- jQuery
+- Boostrap
+- Validierung (Client und Server seite)
+- CSS/SCSS
+- Partial Views
+
+Neu/Gelerntes:
+- Devise Paket
+- CSS-Sprites-Technik
+- Unterschiede zwieschen Webpack/Sprockets
+
 Ich arbeite seit 2017 im Bereich der Webentwicklung und kenne das Bootstrap Framework sowie jQuery. Die CSS Sprites Technik habe ich aber nicht so oft benutzt, das finde ich wirklich toll, ist aber auch mit Vorsicht zu geniessen z.B. wenn die Bilder angepasst werden müssen, muss man durch das ganze CSS gehen und die Positionen auch anpassen und das kann je nach Projekt auch sehr aufwendig sein. 
 Neu für mich war das RubyGem `devise` Paket, dies ist ein sehr praktisches Tool. Ich habe es immer als sehr verantwortungsvoll für alles empfunden, was mit Authentifizierung zu tun hat und deshalb versuche ich immer, "Plug&Play"-Lösungen für die Authentifizierung in meinen Projekten zu verwenden. Auf diese Weise fühle ich mich sicherer, denn oft sind in solchen Projekten viele Leute beteiligt und der Sicherheitsaspekt spielt eine sehr wichtige Rolle. Die Routen die der `devise` erstellt sind auch sehr nützlich. 
 Dank der Quicknotes, die wir in diesem Projekt schreiben sollten, habe ich meine Fähigkeiten in Markdown verbessert. Ich habe noch nie ein so umfangreiches Dokument mit Markdown geschrieben. 
@@ -892,15 +906,15 @@ Ruby on Rails finde ich ein tolles Framework, aber ich bevorzuge in meinen Proje
 
 **Was waren die Schwierigkeiten, wie konnte ich diese lösen?**
 
-Ich habe die Aufgaben ohne Probleme gelöst. Allerdings gab es zu Beginn Schwierigkeiten bezüglich der Arbeitsblätter, da diese in zwei Teile (Webpack und Sprockets) aufgeteilt waren. Aus meiner Sicht wurde es unnötig kompliziert gemacht, da das Webpack super funktionierte und Sprockets nicht benötigt wurde.
+Wie bereits erwähnt, sind die Arbeitsblätter sehr gut gemacht und die Einführung in das Thema ist sehr verständlich. Dies führte entsprechend problemlos zur Lösung der Aufgabe. Dank meiner Erfahrung mit MVC-Frameworks sowie Bootstrap und jQuery konnte ich die Aufgaben ohne Probleme lösen. Allerdings gab es zu Beginn Schwierigkeiten mit den Arbeitsblättern, da diese in zwei Teile (Webpack und Sprockets) aufgeteilt waren. Aus meiner Sicht wurde es unnötig kompliziert gemacht, denn das Webpack funktionierte hervorragend und Sprockets wurde nicht benötigt. Ich habe zuerst mit den Sprockets angefangen und als ich diesen Builder irgendwo eingesetzt habe, hat es aufgehört zu funktionieren. Dann habe ich mich entschieden, mit dem Standard-Builder Webpack weiterzumachen und habe dadurch etwas Zeit verloren. Als ich es mit Webpack gemacht habe, hat es ohne Probleme funktioniert und ich konnte alle Aufgaben bis zum Arbeitsblatt 3 lösen.
 
-| Was habe ich nicht verstanden bzw. was konnte ich nicht lösen? |
-|---|
-| Ich habe alle Aufgaben bis zu Arbeitsblatt 3 gelöst und es gab keine, die ich nicht lösen konnte. Mal sehen, was bei den nächsten Arbeitsblättern kommt. |
+**Was habe ich nicht verstanden bzw. was konnte ich nicht lösen?**
 
-| Was kann ich nächstes Mal besser machen? |
-|---|
-| Ich werde bestimmt meinen Code so viel wie möglich teilen und dank der Rails `render` Methode ist es ziemlich einfach. Ich werde auch das Layout an mobile Geräte anpassen und da werden mir die Bootstrap Responsive Klassen helfen. |
+Ich habe alle Aufgaben bis zum Arbeitsblatt 3 gelöst und es gab keine, die ich nicht lösen konnte. Ich fand es auch nicht zu kompliziert und ich habe alles verstanden. Mal sehen, was bei den nächsten Arbeitsblättern kommt.
+
+**Was kann ich nächstes Mal besser machen?**
+
+Das Home Page werde ich verbessern. Ich denke da wir eine Instagramm App bauen braucht es da einen Feed Page so wie es in dem Echten Istagram ist. Dazu kommt dann weitere Views so wie Profile View, Einstellungs View usw... Ich werde auch das Layout an mobile Geräte anpassen und da werden mir die Bootstrap Responsive Klassen helfen. Ich werde bestimmt meinen Code so viel wie möglich teilen und dank der Rails `render` Methode ist es ziemlich einfach.
 
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
