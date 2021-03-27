@@ -451,7 +451,128 @@ class Artikel < ApplicationRecord
   validates :body, presence: true, length: { minimum: 10 }
 end
 ```
-`has_many` symbolisiert der 1-seitige Beziehung, dass dieses Modell viele Assoziationspartner besitzt. Die eindeutige Zuordnung der N-Seite wird dagegen weiterhin durch ein belongs_to angezeigt. Für die Navigation bzw. Zuweisung sind die Veränderungen ebenso einseitig.
+`has_many` symbolisiert der 1-seitige Beziehung, dass dieses Modell viele Assoziationspartner besitzt. Die eindeutige Zuordnung der N-Seite wird dagegen weiterhin durch ein belongs_to angezeigt. Für die Navigation bzw. Zuweisung sind die Veränderungen ebenso einseitig.  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+# Rails Instagram
+Nun, da wir bereits die Grundlagen über die Datenbank beschrieben haben und sie in Zukunft als Hilfsmittel verwenden können, beginnen wir mit den Notizen über die Rails Instagram-App und gleich mit der Authentifizierung.
+
+##### Basic Authentifikation
+Für die Basis-Authentifizierung werden wir eine Authentifizierungskomponente verwenden, nämlich den `device`-Paket. 
+>Devise ist eine Full-Stack-Authentifizierungslösung, die alle Model-, View- und Controller-Schichten mit Rails Engines implementiert. Sie befasst sich mit der Kontobestätigung und der Passwort-Wiederherstellung.
+
+Um die neueste Version zu installieren ([_mehr über gem und Gemfile_](#RubyGem)):
+```
+gem install device
+```
+Um die ein bestimmte Version zu installieren:
+```
+gem install device -v 2.1.2
+```
+Nun müssen wir den gem in unseren [Gemfile](#RubyGem) einfügen:
+```
+gem 'devise'
+```
+Nach der Installation von `device` müssen wir die entsprechende Konfiguration anhand der Ausgabeinhalte an der Kommandozeile vornehmen. Zudem generieren wir eine Migrationsdatei für einen User-model und führen schlussendlich die Migrationen ein:
+```
+rails g devise User
+rails db:migrate
+```
+Nun können wit mithilfe des Device alle view Operationen (CRUD) mit User-modelle machen. Device erstellt für uns auch folgende Routen:
+```
+$ rails routes
+                  Prefix Verb   URI Pattern                         Controller#Action
+        new_user_session GET    /users/sign_in(.:format)            devise/sessions#new
+            user_session POST   /users/sign_in(.:format)            devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)           devise/sessions#destroy
+       new_user_password GET    /users/password/new(.:format)       devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)      devise/passwords#edit
+     user_password PATCH        /users/password(.:format)           devise/passwords#update
+                         PUT    /users/password(.:format)           devise/passwords#update
+                         POST   /users/password(.:format)           devise/passwords#create
+cancel_user_registration GET    /users/cancel(.:format)             devise/registrations#cancel
+   new_user_registration GET    /users/sign_up(.:format)            devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)               devise/registrations#edit
+       user_registration PATCH  /users(.:format)                    devise/registrations#update
+                         PUT    /users(.:format)                    devise/registrations#update
+                         DELETE /users(.:format)                    devise/registrations#destroy
+                         POST   /users(.:format)                    devise/registrations#create
+```
+z.B wenn wir auf folgendes URL gehen http://localhost:4000/users/sign_in soltten wir einen Form sehen:
+![](https://imgur.com/SHaJxmr)  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+##### RubyGem
+**RubyGems** ist ein Framework für die Installation und Paketierung von Ruby-Bibliotheken und -Anwendungen.  
+**gem** - Ein Paket (Datei), das eine Bibliothek oder Anwendung enthält. Sie hat ein standardisiertes Aussehen und befindet sich in einem Repository im Netzwerk.  
+**gem command tool** - RubyGems bietet ein "gem"-Hilfsprogramm, um gem-Pakete von der Kommandozeile aus zu manipulieren. Es ist in Ruby integriert und erlaubt den Zugriff auf installierte Gems als Bibliotheken.
+---
+Ruby on Rails hat den **Gemfile** welches eine Liste von Paketen speichert, die man für sein Projekt installieren möchte, mit zusätzlichen Informationen darüber, wo sie zu finden sind und welche Version zu verwenden ist. Wenn keine **Gemfile.lock** vorhanden ist, verwendet Bundler die Informationen aus der Gemfile und findet Pakete und Versionen, die installiert werden können, um alle Abhängigkeiten zu erfüllen. Gemfile.lock wird dann generiert, um die Pakete und ihre Versionen zu speichern, die von Bundle Install verwendet werden (nachdem die Abhängigkeiten aufgelöst wurden). Wenn jemand bundle install erneut aufruft, prüft Bundler, ob Gemfile.lock aktualisiert ist, und wenn ja, verwendet Bundler die Versionen aus Gemfile.lock, um Gems zu installieren.  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+##### Bootstrap 4 und jQuery installieren
+**Bootstrap** - ist eine offene Schnittstellenplattform für die schnelle und einfache Website-Entwicklung. Bootstrap enthält HTML- und CSS-basierte Designvorlagen für Typografie, Formulare, Schaltflächen, Tabellen, Navigation, Modals, Karussellbilder und vieles mehr sowie zusätzliche JavaScript-Plugins. Bootstrap gibt auch die Möglichkeit, auf einfache Weise adaptive Designs zu erstellen
+**jQuery** - ist eine leichtgewichtige, "weniger schreiben, mehr tun" JavaScript-Bibliothek. Der Zweck von jQuery ist es, die Verwendung von JavaScript auf der Website wesentlich zu vereinfachen. jQuery nimmt viele gängige Aufgaben, die viele Zeilen JavaScript-Code zur Ausführung erfordern, und verpackt sie in Methoden, die mit einer einzigen Zeile Code aufgerufen werden können. jQuery vereinfacht auch viele komplexe Dinge von JavaScript, wie AJAX-Aufrufe und DOM-Manipulation.
+---
+Für den Installation von Bootstrap und jQuery werden wir den Packetenmanager `yarn` verwenden.
+>`yarn` ist ein alternativer npm-Client, der als JavaScript-Paketmanager dient und von Facebook, Google, Exponent und Tilde mitentwickelt wurde. Dieser Paketmanager beschleunigt die Paketerstellung und macht sie sicherer.
+
+Das Installation wird mit folgenden Befehl gemacht:
+```
+yarn add bootstrap jquery popper.js
+```
+> `popper.js` benötigt Bootstrap für einige interaktive Bootstrap JS-Komponenten.  
+
+Wir müssen nun den [Webpack](#webpack) konfigurieren:
+```
+// config/webpack/environment.js
+const { environment } = require('@rails/webpacker') 
+const webpack = require('webpack') 
+environment.plugins.append('Provide', 
+    new webpack.ProvidePlugin({ 
+        $: 'jquery/src/jquery', 
+        jQuery: 'jquery/src/jquery', 
+        Popper: ['popper.js', 'default']
+    })
+)
+```
+Und den Bootstrap in `app/javascript/packs/application.js` importieren:
+```
+import "bootstrap";
+```
+Da wir in unserem Projekt [SCSS](#scss) anstelle von CSS verwenden möchten, müssen wir die Datei `application.css` in das Format `*.scss` umbenennen. Und in die umbenannte Datei die Bootsrtap importieren.
+```
+// app/assets/stylesheets/application.scss
+@import "bootstrap/scss/bootstrap";
+```  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+##### SCSS
+SCSS ist ein CSS-Präprozessor, dessen Hauptzweck es ist, die Möglichkeiten zum Schreiben von CSS-Code zu verbessern. Der SCSS-Präprozessor beschleunigt das Schreiben von CSS-Code und macht ihn um ein Vielfaches einfacher zu pflegen. SCSS ist eine programmiersprachenähnliche Sprache, die die CSS-Entwicklung erleichtert und beschleunigt. SCSS ist eine kompilierbare Sprache und wird vom Browser in seiner reinen Form nicht verarbeitet. Die Syntax ist vollständig kompatibel mit CSS, so dass es nicht nötig ist, sie separat zu lernen, es ist einfach CSS mit Zusätzen.  
+Die Verwendung von SCSS bietet eine Reihe von Vorteilen, die viel Zeit und Mühe sparen.
+- SCSS gibt die Möglichkeit, Variablen zuzuweisen.
+- SCSS erlaubt das Verschachteln von CSS-Regeln ineinander.
+- Verwenden von Add-ons (imports)  
+
+Es gibt jedoch auch die Nachteile, z.B:
+- Wenn man CSS nicht sehr gut kennt, hilft der SCSS nicht weiter.
+- Es wird ziemlich viel Zeit in Anspruch nehmen, alle Funktionen von SCSS zu erlernen.
+- der eingebaute HTML-Element-Inspektor des Browsers hilft nicht, wenn man SCSS verwendet.  
+
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+##### Webpack  
+In JavaScript geschriebene Anwendungen werden immer komplexer, so dass für das Zusammenstellen von Modulen zunehmend ein spezielles Werkzeug - ein Bundler - eingesetzt wird. Solche Werkzeuge ermöglichen es Entwicklern, alle für ein Projekt benötigten Ressourcen zu paketieren, zu kompilieren und allgemein zu organisieren. Es können nicht nur Fremdbibliotheken, sondern auch eigene Dateien verwendet werden. Ein solches Baukastensystem ermöglicht eine bessere Organisation eines Projekts, da es in kleine Module aufgeteilt wird.
+
+>`webpack` ist ein statischer Modul-Bundler für moderne JavaScript-Anwendungen. Wenn `webpack` die Anwendung verarbeitet, baut es intern einen Abhängigkeitsgraphen auf, der jedes Modul, dass das Projekt benötigt, abbildet und ein oder mehrere Bundles erzeugt.
+
+Webpack ist derzeit einer der leistungsstärksten solchen Bundler, also Modular Builder. Es ist Open-Source und erlaubt die Lösung einer Vielzahl von Aufgaben. Wie andere Entwickler-Tools hat auch Webpack seine Vor- und Nachteile.  
+**Vorteile**: Es ist ideal für Single-Page-Anwendungen. Das Webpack kann auch eine erweiterte Codeaufteilung durchführen. Aufgrund dieser und anderer Vorteile ist es derzeit eines der beliebtesten JS-Entwicklungswerkzeuge.  
+**Nachteile**: Es ist etwas schwierig herauszufinden, wie es funktioniert, ein Teil der Dokumentation ist aufgrund der vielen Änderungen bei Updates veraltet.  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
+
+
+
 
 
 
