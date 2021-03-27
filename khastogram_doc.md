@@ -604,7 +604,8 @@ class PagesController < ApplicationController
   end
 end
 ```
-Wir wollen auch zwei Partial Views für die Kopf- und Fusszeile verwenden, wir erstellen sie unter `app/views/shared/`. Dort können wir auch weitere Partial Views anlegen, um Redundanz in unserer Applikation zu reduzieren. In diesem Sinne wird sie "Shared" genannt. Wir nennen die beiden Dateien `_navbar.html.erb` und `_footer.html.erb` und schreiben dort entsprechend den folgenden Code:
+Wir wollen auch zwei Partial Views für die Kopf- und Fusszeile verwenden, wir erstellen sie unter `app/views/shared/`. Dort können wir auch weitere Partial Views anlegen, um Redundanz in unserer Applikation zu reduzieren. In diesem Sinne wird sie "Shared" genannt. Wir nennen die beiden Dateien `_navbar.html.erb` und `_footer.html.erb` und schreiben dort entsprechend den folgenden Code:  
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 ```
 <!-- _navbar.html.erb -->
 <nav class="navbar navbar-expand-lg navbar-light">
@@ -671,6 +672,7 @@ Nun können wir die Kopf- und Fusszeile mit eine `render`-Methode anzeigen:
 <%=render 'shared/navbar'%>
 <%=render 'shared/footer'%>
 ```
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### CSS-Sprites
 CSS-Spriting ist eine Möglichkeit, viele Bilder zu einem einzigen zu kombinieren, so dass:
@@ -697,6 +699,7 @@ class User < ApplicationRecord
   validates_length_of :name, maximum: 50, allow_blank: false
 end
 ```
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 ##### Login-View
 Wir möchten nicht, dass die Kopfzeile angezeigt wird, wenn man nicht angemeldet ist. Also können wir dies durch die Verwendung des `current_user` der `devise`-Pakete sicherstellen. In `application.html.erb` ändern wir den `render`-Methode welches den Kopfzeile importiert:
@@ -764,6 +767,8 @@ Und diese können wir nun in der Login View verwenden:
   </div>
 </div>
 ```
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
+
 **Beschreiibung von einige CSS Klassen die in dummy_phone Datei verwendet wurde:** 
 - col-lg-6 - Teilt das `row` auf zwei Seiten.
 - carousel - Bootstrap CSS-Klass ist ein Umhüller für den Karussell-Komponente.
@@ -852,12 +857,14 @@ Die Registrierungsseite ist nicht viel unterschiedlich, wir müssen nur das Form
   </div>
 </div>
 ```
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 Und hier sind die Screenshots von zwei Views (Login und Registrierung):
 
 ![image](https://user-images.githubusercontent.com/17837758/112714445-b07e1600-8eda-11eb-9b8a-605c5bfe760a.png)
 ---
 ![image](https://user-images.githubusercontent.com/17837758/112714456-b542ca00-8eda-11eb-8ddd-91509b7bae30.png)
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 # Selbstreflexion
 
@@ -880,6 +887,8 @@ Und hier sind die Screenshots von zwei Views (Login und Registrierung):
 | Was kann ich nächstes Mal besser machen? |
 |---|
 | Ich werde bestimmt meinen Code so viel wie möglich teilen und dank der Rails `render` Methode ist es ziemlich einfach. Ich werde auch das Layout an mobile Geräte anpassen und da werden mir die Bootstrap Responsive Klassen helfen. |
+
+[Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)
 
 
 
