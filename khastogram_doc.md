@@ -15,16 +15,16 @@
     13. [R](#dann-kommt-das-r-von-crud)  
     14. [U](#artikel-update)  
     15. [D](#artikel-delete)  
-16. [Modell Assoziationen](#modell-assoziationen)
-17. [Rails Instagram](#rails-instagram)
-    18. [Basic Authentifikation](#basic-authentifikation)
-    19. [RubyGem](#rubygem)
-    20. [Bootstrap 4 und jQuery installieren](#bootstrap-4-und-jquery-installieren)
-    21. [SCSS](#scss)
-    22. [Webpack](#webpack)
-23. [Home Seite](#home-seite)
-    24. [Login View](#login-view)
-25. [Selbstreflexion](#selbstreflexion)
+16. [Modell Assoziationen](#modell-assoziationen)  
+17. [Rails Instagram](#rails-instagram)  
+    18. [Basic Authentifikation](#basic-authentifikation)  
+    19. [RubyGem](#rubygem)  
+    20. [Bootstrap 4 und jQuery installieren](#bootstrap-4-und-jquery-installieren)  
+    21. [SCSS](#scss)  
+    22. [Webpack](#webpack)  
+23. [Home Seite](#home-seite)  
+    24. [Login View](#login-view)  
+25. [Selbstreflexion](#selbstreflexion)  
 
 --- 
 
@@ -517,6 +517,7 @@ z.B wenn wir auf folgendes URL gehen http://localhost:4000/users/sign_in soltten
 **RubyGems** ist ein Framework für die Installation und Paketierung von Ruby-Bibliotheken und -Anwendungen.  
 **gem** - Ein Paket (Datei), das eine Bibliothek oder Anwendung enthält. Sie hat ein standardisiertes Aussehen und befindet sich in einem Repository im Netzwerk.  
 **gem command tool** - RubyGems bietet ein "gem"-Hilfsprogramm, um gem-Pakete von der Kommandozeile aus zu manipulieren. Es ist in Ruby integriert und erlaubt den Zugriff auf installierte Gems als Bibliotheken.
+
 ---
 Ruby on Rails hat den **Gemfile** welches eine Liste von Paketen speichert, die man für sein Projekt installieren möchte, mit zusätzlichen Informationen darüber, wo sie zu finden sind und welche Version zu verwenden ist. Wenn keine **Gemfile.lock** vorhanden ist, verwendet Bundler die Informationen aus der Gemfile und findet Pakete und Versionen, die installiert werden können, um alle Abhängigkeiten zu erfüllen. Gemfile.lock wird dann generiert, um die Pakete und ihre Versionen zu speichern, die von Bundle Install verwendet werden (nachdem die Abhängigkeiten aufgelöst wurden). Wenn jemand bundle install erneut aufruft, prüft Bundler, ob Gemfile.lock aktualisiert ist, und wenn ja, verwendet Bundler die Versionen aus Gemfile.lock, um Gems zu installieren.  
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
@@ -524,6 +525,7 @@ Ruby on Rails hat den **Gemfile** welches eine Liste von Paketen speichert, die 
 ##### Bootstrap 4 und jQuery installieren
 **Bootstrap** - ist eine offene Schnittstellenplattform für die schnelle und einfache Website-Entwicklung. Bootstrap enthält HTML- und CSS-basierte Designvorlagen für Typografie, Formulare, Schaltflächen, Tabellen, Navigation, Modals, Karussellbilder und vieles mehr sowie zusätzliche JavaScript-Plugins. Bootstrap gibt auch die Möglichkeit, auf einfache Weise adaptive Designs zu erstellen
 **jQuery** - ist eine leichtgewichtige, "weniger schreiben, mehr tun" JavaScript-Bibliothek. Der Zweck von jQuery ist es, die Verwendung von JavaScript auf der Website wesentlich zu vereinfachen. jQuery nimmt viele gängige Aufgaben, die viele Zeilen JavaScript-Code zur Ausführung erfordern, und verpackt sie in Methoden, die mit einer einzigen Zeile Code aufgerufen werden können. jQuery vereinfacht auch viele komplexe Dinge von JavaScript, wie AJAX-Aufrufe und DOM-Manipulation.
+
 ---
 Für den Installation von Bootstrap und jQuery werden wir den Packetenmanager `yarn` verwenden.
 >`yarn` ist ein alternativer npm-Client, der als JavaScript-Paketmanager dient und von Facebook, Google, Exponent und Tilde mitentwickelt wurde. Dieser Paketmanager beschleunigt die Paketerstellung und macht sie sicherer.
