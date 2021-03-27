@@ -499,7 +499,9 @@ cancel_user_registration GET    /users/cancel(.:format)             devise/regis
                          POST   /users(.:format)                    devise/registrations#create
 ```
 z.B wenn wir auf folgendes URL gehen http://localhost:4000/users/sign_in soltten wir einen Form sehen:
-![](https://imgur.com/SHaJxmr)  
+![image](https://user-images.githubusercontent.com/17837758/112711057-c7fed400-8ec5-11eb-9289-653550f6d13b.png)
+
+
 [Zurück zum Inhaltsverzeichnis](#inhaltsverzeichnis)  
 
 ##### RubyGem
