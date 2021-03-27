@@ -16,6 +16,15 @@
     14. [U](#artikel-update)  
     15. [D](#artikel-delete)  
 16. [Modell Assoziationen](#modell-assoziationen)
+17. [Rails Instagram](#rails-instagram)
+    18. [Basic Authentifikation](#basic-authentifikation)
+    19. [RubyGem](#rubygem)
+    20. [Bootstrap 4 und jQuery installieren](#bootstrap-4-und-jquery-installieren)
+    21. [SCSS](#scss)
+    22. [Webpack](#webpack)
+23. [Home Seite](#home-seite)
+    24. [Login View](#login-view)
+25. [Selbstreflexion](#selbstreflexion)
 
 --- 
 
